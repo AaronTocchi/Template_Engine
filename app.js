@@ -61,11 +61,9 @@ function getIntern() {
         ])
 };
 
-let team = []
+let team = [];
 
 async function getData() {
-    let resolve;
-    let reject;
 
     inquirer.prompt([
         {
@@ -89,47 +87,50 @@ async function getData() {
             message: "What's your manager's office number?",
             name: "officeNumber"
         }
-    ]).then(({ name, id, email, officeNumber }) => {
+    ])
+    .then(({ name, id, email, officeNumber }) => {
         // still need to instantiate 
         manager = new Manager(name, id, email, officeNumber);
         team.push(manager)
+
         getEmployee();
+        // run second prompt for employee
         function getEmployee() {
             inquirer.prompt([{
                 type: "list",
                 message: "What role would you like to add in your team?",
                 name: "role",
                 choices: ["Engineer", "Intern", "I don't want to add anymore"]
-            }]).then(data => {
+            }])
+            .then(data => {
                 if (data.role === 'Engineer') {
-                    getEngineer().then(({ name, id, email, github }) => {
+                   getEngineer()
+                    .then(({ name, id, email, github }) => {
                         engineer = new Engineer(name, id, email, github)
                         team.push(engineer)
-                        console.log(team)
-
                         getEmployee();
                     })
-
-                }
+                 }
                 else if (data.role === 'Intern') {
-                    getIntern().then(({ name, id, email, school }) => {
+                    getIntern()
+                    .then(({ name, id, email, school }) => {
                         intern = new Intern(name, id, email, school)
                         team.push(intern)
-                        
-                        getEmployee();
+                         getEmployee();
                     })
                 }
             //    on i dont want to add anymore call generate html
                 else {
-                    console.log("congrats thats a team")
+                    console.log(team)
+                    // pass team into generateHTML function
+
                 }
             })
         }
     })
 };
 
-
-getData();
+ getData();
 
 
 

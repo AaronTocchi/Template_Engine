@@ -39,6 +39,22 @@ function getIntern() {
         .prompt([
             {
                 type: "input",
+                message: "What's your Engineer's name?",
+                name: "name"
+                // add some questions
+            },
+            {
+                type: "input",
+                message: "What's your Engineer's id?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What's your Intern's email?",
+                name: "email"
+            },
+            {
+                type: "input",
                 message: "Please provide your School name.",
                 name: "school"
             }
@@ -102,6 +118,10 @@ async function getData() {
                         
                         getEmployee();
                     })
+                }
+            //    on i dont want to add anymore call generate html
+                else {
+                    console.log("congrats thats a team")
                 }
             })
         }

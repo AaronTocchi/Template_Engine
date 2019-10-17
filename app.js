@@ -177,7 +177,7 @@ function generateHTML() {
     HTML += `</div></body></html>`
     return HTML;
 }
-
+// create function that makes employee specific info member is role and defined as team[i]
 function makeLowerDiv(member) {
     if (member.getRole() === "Engineer") {
         return `<div> Github: ${member.github}</div>`

@@ -92,48 +92,48 @@ async function getData() {
             name: "officeNumber"
         }
     ])
-    .then(({ name, id, email, officeNumber }) => {
-        // still need to instantiate 
-        manager = new Manager(name, id, email, officeNumber);
-        team.push(manager)
+        .then(({ name, id, email, officeNumber }) => {
+            // still need to instantiate 
+            manager = new Manager(name, id, email, officeNumber);
+            team.push(manager)
 
-        getEmployee();
-        // run second prompt for employee
-        function getEmployee() {
-            inquirer.prompt([{
-                type: "list",
-                message: "What role would you like to add in your team?",
-                name: "role",
-                choices: ["Engineer", "Intern", "I don't want to add anymore"]
-            }])
-            .then(data => {
-                if (data.role === 'Engineer') {
-                   getEngineer()
-                    .then(({ name, id, email, github }) => {
-                        engineer = new Engineer(name, id, email, github)
-                        team.push(engineer)
-                        getEmployee();
-                    })
-                 }
-                else if (data.role === 'Intern') {
-                    getIntern()
-                    .then(({ name, id, email, school }) => {
-                        intern = new Intern(name, id, email, school)
-                        team.push(intern)
-                         getEmployee();
-                    })
-                }
-            //    on i dont want to add anymore call generate html
-                else {
-                    console.log(team)
-                    let HTML = generateHTML();
-                    writeFileAsync("./output/team.html", HTML)
-                    // pass team into generateHTML function
+            getEmployee();
+            // run second prompt for employee
+            function getEmployee() {
+                inquirer.prompt([{
+                    type: "list",
+                    message: "What role would you like to add in your team?",
+                    name: "role",
+                    choices: ["Engineer", "Intern", "I don't want to add anymore"]
+                }])
+                    .then(data => {
+                        if (data.role === 'Engineer') {
+                            getEngineer()
+                                .then(({ name, id, email, github }) => {
+                                    engineer = new Engineer(name, id, email, github)
+                                    team.push(engineer)
+                                    getEmployee();
+                                })
+                        }
+                        else if (data.role === 'Intern') {
+                            getIntern()
+                                .then(({ name, id, email, school }) => {
+                                    intern = new Intern(name, id, email, school)
+                                    team.push(intern)
+                                    getEmployee();
+                                })
+                        }
+                        //    on i dont want to add anymore call generate html
+                        else {
+                            console.log(team)
+                            let HTML = generateHTML();
+                            writeFileAsync("./output/team.html", HTML)
+                            // pass team into generateHTML function
 
-                }
-            })
-        }
-    })
+                        }
+                    })
+            }
+        })
 };
 function generateHTML() {
     let HTML = `<!DOCTYPE html>
@@ -168,6 +168,7 @@ function generateHTML() {
                 <p class="card-text">
                     <div>ID: <span id="ID">${team[i].id}</span></div>
                         <div>Email: <span id="email">${team[i].email}</span></div>
+                        ${makeLowerDiv(team[i])}
                 </p>
             </div>
         </div>`
@@ -176,7 +177,19 @@ function generateHTML() {
     HTML += `</div></body></html>`
     return HTML;
 }
- getData();
+
+function makeLowerDiv(member) {
+    if (member.getRole() === "Engineer") {
+        return `<div> Github: ${member.github}</div>`
+    } else if (member.getRole() === "Intern") {
+        return `<div> School: ${member.school} </div>`
+    } else if (member.getRole() === "Manager") {
+        return `<div> Office: ${member.officeNumber} </div>`
+    }
+    
+
+}
+getData();
 
 
 

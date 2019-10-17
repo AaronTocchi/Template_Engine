@@ -1,3 +1,7 @@
+const fs = require("fs");
+const util = require("util");
+
+const writeFileAsync = util.promisify(fs.writeFile);
 const inquirer = require("inquirer");
 const Engineer = require("./lib/engineer")
 const Intern = require("./lib/intern")
@@ -122,6 +126,8 @@ async function getData() {
             //    on i dont want to add anymore call generate html
                 else {
                     console.log(team)
+                    let HTML = generateHTML();
+                    writeFileAsync("./output/team.html", HTML)
                     // pass team into generateHTML function
 
                 }
@@ -129,7 +135,47 @@ async function getData() {
         }
     })
 };
+function generateHTML() {
+    let HTML = `<!DOCTYPE html>
+    <head>
+        <title>YO TEAM</title>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    
+    
+    </head>
+    
+    <body>
+    <header class="jumbotron text-center display-4 text-white bg-danger font-weight-bold"> My Team </header>
+    <div class="container jumbotron jumbotron-center" style="max-width: 960px;">
+        <div class=row justify-content-center>`
 
+    for (let i = 0; i < team.length; i++) {
+        HTML += `<div class="card col-md-2" style="width: 18rem;">
+            <div class="card-header bg-primary">
+                <h5 class="card-title"><span id="name">${team[i].name}</span> 
+                <br> 
+                ${team[i].getRole()}
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <div>ID: <span id="ID">${team[i].id}</span></div>
+                        <div>Email: <span id="email">${team[i].email}</span></div>
+                </p>
+            </div>
+        </div>`
+    }
+
+    HTML += `</div></body></html>`
+    return HTML;
+}
  getData();
 
 

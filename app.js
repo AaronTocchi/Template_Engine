@@ -43,13 +43,13 @@ function getIntern() {
         .prompt([
             {
                 type: "input",
-                message: "What's your Engineer's name?",
+                message: "What's your Intern's name?",
                 name: "name"
                 // add some questions
             },
             {
                 type: "input",
-                message: "What's your Engineer's id?",
+                message: "What's your Intern's id?",
                 name: "id"
             },
             {

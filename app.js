@@ -157,7 +157,7 @@ function generateHTML() {
         <div class=row justify-content-center>`
 
     for (let i = 0; i < team.length; i++) {
-        HTML += `<div class="card col-md-2" style="width: 18rem;">
+        HTML += `<div class="card col-md-3">
             <div class="card-header bg-primary">
                 <h5 class="card-title"><span id="name">${team[i].name}</span> 
                 <br> 
@@ -166,8 +166,8 @@ function generateHTML() {
             </div>
             <div class="card-body">
                 <p class="card-text">
-                    <div>ID: <span id="ID">${team[i].id}</span></div>
-                        <div>Email: <span id="email">${team[i].email}</span></div>
+                    <div>ID: ${team[i].id} </div>
+                        <div>Email: ${team[i].email}</div>
                         ${makeLowerDiv(team[i])}
                 </p>
             </div>
